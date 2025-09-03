@@ -120,12 +120,14 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <div id="app">
-        
 
+        @include('partials.navbar')
+        
         <main class="py-4 flex-grow-1">
             @yield('content')
         </main>
 
+        @include('partials.footer')
         
     </div>
 

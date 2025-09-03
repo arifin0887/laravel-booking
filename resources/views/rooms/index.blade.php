@@ -34,7 +34,7 @@
                                     <th scope="col" class="text-center">Name</th>
                                     <th scope="col" class="text-center">Price</th>
                                     <th scope="col" class="text-center">Capacity</th>
-                                    <th scope="col" class="text-center">Deskription</th>
+                                    
                                     <th scope="col" class="text-center">Status</th>
                                     <th scope="col" class="text-center">Actions</th>
                                 </tr>
