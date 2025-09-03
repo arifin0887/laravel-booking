@@ -1,45 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-5" style="background-color: #f8f6f3;">
+<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-sm border-0" style="background-color: #fffbe9;">
                 <div class="card-header text-center" style="background-color: #e6d3b3;">
-                    <h2 class="mb-0" style="font-family: 'Playfair Display', serif; color: #7c5e3c;">Booking Table</h2>
+                    <h2 class="mb-0" style="font-family: 'Playfair Display', serif; color: #7c5e3c;">Booking</h2>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('booking.store') }}">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="name" class="form-label" style="color: #7c5e3c;">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required style="border-color: #e6d3b3;">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label" style="color: #7c5e3c;">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required style="border-color: #e6d3b3;">
-                        </div>
-                        <div class="mb-3">
-                            <label for="date" class="form-label" style="color: #7c5e3c;">Date</label>
-                            <input type="date" class="form-control" id="date" name="date" required style="border-color: #e6d3b3;">
-                        </div>
-                        <div class="mb-3">
-                            <label for="time" class="form-label" style="color: #7c5e3c;">Time</label>
-                            <input type="time" class="form-control" id="time" name="time" required style="border-color: #e6d3b3;">
-                        </div>
-                        <div class="mb-3">
-                            <label for="guests" class="form-label" style="color: #7c5e3c;">Number of Guests</label>
-                            <input type="number" class="form-control" id="guests" name="guests" min="1" required style="border-color: #e6d3b3;">
-                        </div>
-                        <button type="submit" class="btn" style="background-color: #7c5e3c; color: #fffbe9; font-family: 'Playfair Display', serif;">Book Now</button>
-                    </form>
+                    <h3 class="card-title mb-3" style="color: #7c5e3c;">Booking Details</h3>
+                    <p class="card-text"><strong style="color: #7c5e3c;">Room Name:</strong> {{ $booking->room->name_room }}</p>
+                    <p class="card-text"><strong style="color: #7c5e3c;">User Name:</strong> {{ $booking->user->name }}</p>
+                    <p class="card-text"><strong style="color: #7c5e3c;">Check-in Date:</strong> {{ $booking->check_in }}</p>
+                    <p class="card-text"><strong style="color: #7c5e3c;">Check-out Date:</strong> {{ $booking->check_out }}</p>
+                    <p class="card-text"><strong style="color: #7c5e3c;">Status:</strong> 
+                        <span class="badge {{ $booking->status === 'confirmed' ? 'bg-success' : 'bg-warning' }}">
+                            {{ ucfirst($booking->status) }}
+                        </span>
+                    </p>
+                    <div class="d-flex justify-content-end">
+                        <a href="{{ route('bookings.index') }}" class="btn btn-custom-secondary me-2">Back to List</a>
+                        <a href="{{ route('bookings.edit', $booking->id) }}" class="btn btn-custom-primary">Edit Booking</a>    
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
-
-@push('styles')
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-@endpush

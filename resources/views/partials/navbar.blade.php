@@ -10,11 +10,12 @@
                             <a class="nav-link" href="#">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('rooms.index') }}">Rooms</a>
+                            <a class="nav-link" href="{{ route('rooms.index') }}">Room</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Bookings</a>
+                            <a class="nav-link" href="{{ route('bookings.index')}}">Booking</a>
                         </li>
+                        
                     </ul>
                 </div>
             </div>

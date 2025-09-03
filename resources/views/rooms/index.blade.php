@@ -33,8 +33,7 @@
                                     <th scope="col" class="text-center">ID</th>
                                     <th scope="col" class="text-center">Name</th>
                                     <th scope="col" class="text-center">Price</th>
-                                    <th scope="col" class="text-center">Capacity</th>
-                                    
+                                    <th scope="col" class="text-center">Capacity</th>                                 
                                     <th scope="col" class="text-center">Status</th>
                                     <th scope="col" class="text-center">Actions</th>
                                 </tr>
@@ -53,7 +52,7 @@
                                         </td>
                                         <td class="text-center text-nowrap">
                                             <a href="{{ route('rooms.show', $room->id) }}" class="btn btn-info btn-sm btn-custom-secondary">View</a>
-                                            <a href="{{ route('rooms.edit', $room->id) }}" class="btn btn-warning btn-sm btn-custom-secondary">Edit</a>
+                                            
                                             <form action="{{ route('rooms.destroy', $room->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')

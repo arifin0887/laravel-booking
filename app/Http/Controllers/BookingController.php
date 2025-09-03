@@ -49,7 +49,8 @@ class BookingController extends Controller
      */
     public function show(Booking $booking)
     {
-        //
+        $booking = Booking::with('rooms')->find($booking->id);
+        return view('bookings.show', compact('booking'));
     }
 
     /**
@@ -57,7 +58,8 @@ class BookingController extends Controller
      */
     public function edit(Booking $booking)
     {
-        //
+        $booking = Booking::findorFail($booking->id);
+        return view('bookings.edit', compact('booking'));
     }
 
     /**
@@ -65,7 +67,19 @@ class BookingController extends Controller
      */
     public function update(Request $request, Booking $booking)
     {
-        //
+        $request->validate([
+            'room_id' => 'required|exists:rooms,id',
+            'user_id' => 'required|exists:users,id',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date|after:start_time',
+            'status' => 'required|string|in:pending,confirmed,cancelled',
+            'notes' => 'nullable|string',
+        ]);
+
+        $booking->update($request->all());
+
+        return redirect()->route('bookings.index')
+                         ->with('success', 'Booking updated successfully.');
     }
 
     /**
@@ -73,6 +87,8 @@ class BookingController extends Controller
      */
     public function destroy(Booking $booking)
     {
-        //
+        $booking->delete();
+        return redirect()->route('bookings.index')
+                         ->with('success', 'Booking deleted successfully.');
     }
 }
