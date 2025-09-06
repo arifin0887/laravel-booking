@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -45,4 +46,30 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+/*
+|--------------------------------------------------------------------------
+| RELATIONS
+|--------------------------------------------------------------------------
+*/
+
+/**
+ * Get the parent that owns the {{ class }}
+ * 
+ * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+ */
+ public function bookings(): BelongsTo 
+ {
+    return $this->belongsTo(Booking::class, 'user_id', 'id');
+ }       
+
+// /**
+//  * Get all of the children for the {{ class }}
+//  * @return \Illuminate\Database\Eloquent\Relations\HasMany
+//  */
+// public function children(): HasMany
+// {
+//     return $this->hasMany(Child::class, 'foreign_key', 'local_key');
+// }
+
 }

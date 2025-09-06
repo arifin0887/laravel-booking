@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Room;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -12,8 +14,14 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = Booking::all();
-        return view('bookings.index', compact('bookings'));
+        // ambil booking lengkap dengan relasi room & user
+        $bookings = Booking::with(['room', 'user'])->get();
+
+        // ambil semua room & user untuk form tambah booking
+        $rooms = Room::all();
+        $users = User::all();
+
+        return view('bookings.index', compact('bookings', 'rooms', 'users'));
     }
 
     /**

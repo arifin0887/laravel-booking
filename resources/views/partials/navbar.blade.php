@@ -15,6 +15,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('bookings.index')}}">Booking</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('users.index')}}">Guest</a>
+                        </li>
                         
                     </ul>
                 </div>
