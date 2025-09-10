@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Tambahkan ->name('home'); di bagian akhir
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::resource('rooms', App\Http\Controllers\RoomController::class);
 
