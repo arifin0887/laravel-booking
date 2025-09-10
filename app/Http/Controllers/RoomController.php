@@ -9,6 +9,11 @@ class RoomController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * Menampilkan daftar semua data Room.
+     *
+     * Mengambil seluruh data Room dari database menggunakan Eloquent ORM (`Room::all()`),
+     * lalu mengirimkan data tersebut ke view `rooms.index` dalam bentuk variabel `$rooms`.
+     *
      */
     public function index()
     {
@@ -18,6 +23,10 @@ class RoomController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     * Menampilkan form untuk membuat Room baru.
+     *
+     * Mengembalikan view `rooms.create` yang berisi form input data Room.
+     *
      */
     public function create()
     {
@@ -26,6 +35,11 @@ class RoomController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * Menyimpan data Room baru ke database.
+     *
+     * Melakukan validasi input, kemudian menyimpan data Room baru menggunakan Eloquent ORM.
+     * Setelah berhasil, redirect ke halaman daftar Room dengan pesan sukses.
+     *
      */
     public function store(Request $request)
     {
@@ -44,6 +58,10 @@ class RoomController extends Controller
 
     /**
      * Display the specified resource.
+     * Menampilkan detail Room tertentu.
+     *
+     * Mengambil data Room beserta relasi bookings, lalu mengirimkan ke view `rooms.show`.
+     * Find => Mengambil satu data model berdasarkan primary key (id).Jika data tidak ditemukan, mengembalikan null.
      */
     public function show(Room $room)
     {
@@ -53,6 +71,11 @@ class RoomController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * Menampilkan form untuk mengedit Room tertentu.
+     *
+     * Mengambil data Room berdasarkan ID, lalu mengirimkan ke view `rooms.edit`.
+     *findOrFail($id) => Mengambil data berdasarkan primary key (id).
+      Jika data tidak ditemukan, melempar exception (ModelNotFoundException) sehingga biasanya menghasilkan error 404.
      */
     public function edit(Room $room)
     {
@@ -62,6 +85,11 @@ class RoomController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * Memperbarui data Room di database.
+     *
+     * Melakukan validasi input, kemudian memperbarui data Room yang dipilih.
+     * Setelah berhasil, redirect ke halaman daftar Room dengan pesan sukses.
+     *
      */
     public function update(Request $request, Room $room)
     {
@@ -81,6 +109,10 @@ class RoomController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * Menghapus data Room dari database.
+     *
+     * Menghapus Room berdasarkan ID, lalu redirect ke halaman daftar Room dengan pesan sukses.
+     *
      */
     public function destroy(Room $room)
     {

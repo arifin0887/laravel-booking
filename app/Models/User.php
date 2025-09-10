@@ -6,6 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class User extends Authenticatable
 {
@@ -49,27 +52,42 @@ class User extends Authenticatable
 
 /*
 |--------------------------------------------------------------------------
+| ROLE HELPERS
+|--------------------------------------------------------------------------
+*/
+public function isAdmin(): bool
+{
+    return $this->role === 'admin';
+}
+
+public function isUser(): bool
+{
+    return $this->role === 'user';
+}
+
+/*
+|--------------------------------------------------------------------------
 | RELATIONS
 |--------------------------------------------------------------------------
 */
 
-/**
- * Get the parent that owns the {{ class }}
- * 
- * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
- */
- public function bookings(): BelongsTo 
- {
-    return $this->belongsTo(Booking::class, 'user_id', 'id');
- }       
-
 // /**
-//  * Get all of the children for the {{ class }}
-//  * @return \Illuminate\Database\Eloquent\Relations\HasMany
+//  * Get the parent that owns the {{ class }}
+//  * 
+//  * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 //  */
-// public function children(): HasMany
-// {
-//     return $this->hasMany(Child::class, 'foreign_key', 'local_key');
-// }
+//  public function bookings(): BelongsTo 
+//  {
+//     return $this->belongsTo(Booking::class, 'user_id', 'id');
+//  }       
+
+/**
+ * Get all of the children for the {{ class }}
+ * @return \Illuminate\Database\Eloquent\Relations\HasMany
+ */
+public function bookings(): HasMany
+{
+    return $this->hasMany(Booking::class, 'user_id', 'id');
+}
 
 }

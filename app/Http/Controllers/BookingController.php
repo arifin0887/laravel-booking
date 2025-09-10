@@ -11,6 +11,11 @@ class BookingController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * Menampilkan daftar semua data Booking.
+     *
+     * Mengambil semua data Booking lengkap dengan relasi Room dan User menggunakan Eloquent ORM.
+     * Juga mengambil semua Room dan User untuk kebutuhan form tambah Booking.
+     *
      */
     public function index()
     {
@@ -26,6 +31,8 @@ class BookingController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     * Menampilkan form untuk membuat Booking baru.
+     * Mengembalikan view `bookings.create` yang berisi form input data Booking.
      */
     public function create()
     {
@@ -34,6 +41,9 @@ class BookingController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * Menyimpan data Booking baru ke database.
+     * Melakukan validasi input, kemudian menyimpan data Booking baru menggunakan Eloquent ORM.
+     * Setelah berhasil, redirect ke halaman daftar Booking dengan pesan sukses.
      */
     public function store(Request $request)
     {
@@ -54,6 +64,8 @@ class BookingController extends Controller
 
     /**
      * Display the specified resource.
+     * Menampilkan detail Booking tertentu.
+     * Mengambil data Booking beserta relasi rooms, lalu mengirimkan ke view `bookings.show`.
      */
     public function show(Booking $booking)
     {
@@ -63,6 +75,8 @@ class BookingController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * Menampilkan form untuk mengedit Booking tertentu.
+     * Mengambil data Booking berdasarkan ID, lalu mengirimkan ke view `bookings.edit
      */
     public function edit(Booking $booking)
     {
@@ -72,6 +86,9 @@ class BookingController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * Melakukan validasi input, kemudian memperbarui data Booking yang dipilih.
+     * Setelah berhasil, redirect ke halaman daftar Booking dengan pesan sukses.
+     * 
      */
     public function update(Request $request, Booking $booking)
     {
@@ -92,6 +109,8 @@ class BookingController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * Menghapus Booking berdasarkan ID, lalu redirect ke halaman daftar Booking dengan pesan sukses.
+     * 
      */
     public function destroy(Booking $booking)
     {
