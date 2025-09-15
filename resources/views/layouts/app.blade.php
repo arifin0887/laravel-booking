@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+{{-- <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,7 +33,7 @@
             </main>
         </div>
     </body>
-</html>
+</html> --}}
 
 <html lang="id">
 <head>
@@ -93,30 +93,14 @@
 </head>
 <body>
 
-    <header class="main-header shadow-sm">
-        <nav class="navbar navbar-expand-lg navbar-dark container">
-            <a class="navbar-brand" href="{{ url('/') }}">BookingApp</a>
-            <div class="ms-auto">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('rooms.index') }}">Room</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Booking</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Guest</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+    @include('partials.navbar')
 
     <main class="py-5">
         @yield('content')
     </main>
 
-    <footer class="main-footer">
-        <div class="container">
-            <p class="mb-0">&copy; {{ date('Y') }} Booking Application. All rights reserved.</p>
-        </div>
-    </footer>
+    @include('partials.footer')
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html> 

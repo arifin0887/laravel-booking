@@ -22,3 +22,4 @@ require __DIR__.'/auth.php';
 
 Route::resource('bookings', \App\Http\Controllers\BookingController::class)->middleware('auth');
 Route::resource('rooms', \App\Http\Controllers\RoomController::class)->middleware('auth');
+Route::resource('users', \App\Http\Controllers\UserController::class)->middleware('auth');
