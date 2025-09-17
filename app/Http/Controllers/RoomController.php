@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      * Menampilkan daftar semua data Room.
@@ -30,6 +31,10 @@ class RoomController extends Controller
      */
     public function create()
     {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+        
         return view('rooms.create');
     }
 
@@ -43,6 +48,10 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $request->validate([
             'name_room' => 'required|string|max:255|unique:rooms',
             'price' => 'required|integer|min:100',
@@ -65,6 +74,7 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
+
         $room = Room::with('bookings')->find($room->id);
         return view('rooms.show', compact('room'));
     }
@@ -79,6 +89,10 @@ class RoomController extends Controller
      */
     public function edit(Room $room)
     {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $room = Room::findorFail($room->id);
         return view('rooms.edit', compact('room'));
     }
@@ -93,6 +107,10 @@ class RoomController extends Controller
      */
     public function update(Request $request, Room $room)
     {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $request->validate([
             'name_room' => 'required|string|max:255|unique:rooms,name_room,' . $room->id,
             'price' => 'required|integer|min:100',
@@ -116,6 +134,10 @@ class RoomController extends Controller
      */
     public function destroy(Room $room)
     {
+        if (!auth()->user()->isAdmin()) {
+        abort(403, 'Unauthorized action.');
+        }
+
         $room->delete();
         return redirect()->route('rooms.index')
                          ->with('success', 'Room deleted successfully.');

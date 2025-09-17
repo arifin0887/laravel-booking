@@ -2,139 +2,144 @@
 
 @section('content')
 <style>
+    body {
+        background: #f8f6f3;
+        font-family: 'Playfair Display', serif;
+    }
     .card-custom {
         border-radius: 1rem;
         border: none;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-        background-color: #ffffff;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        background: #fffbe9;
         overflow: hidden;
     }
     .card-header-custom {
-        background-color: var(--brand-primary, #5d4037);
-        color: white;
-        padding: 1.25rem 1.5rem;
+        background: linear-gradient(135deg, #7c5e3c, #a98467);
+        color: #fffbe9;
+        padding: 1.5rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        border-bottom: none;
     }
     .card-header-custom h2 {
-        font-weight: 600;
-        font-size: 1.25rem;
+        font-weight: bold;
+        font-size: 1.5rem;
         margin-bottom: 0;
-    }
-    .card-body-custom {
-        padding: 0; /* Padding dihilangkan agar tabel menempel sempurna */
+        font-family: 'Playfair Display', serif;
     }
     .table-responsive-custom {
-        padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+        padding: 1.5rem;
     }
     .table-custom {
         width: 100%;
-        border-collapse: collapse;
-    }
-    .table-custom th, .table-custom td {
-        padding: 1rem;
-        vertical-align: middle;
-        text-align: left;
-        border-bottom: 1px solid #f0e9e1; /* Garis horizontal yang lebih halus */
+        border-collapse: separate;
+        border-spacing: 0 0.75rem;
     }
     .table-custom thead th {
         font-weight: 600;
-        color: var(--brand-text-muted, #757575);
+        color: #7c5e3c;
         text-transform: uppercase;
         font-size: 0.8rem;
         letter-spacing: 0.5px;
-        border-bottom: 2px solid #e0d7cb;
-    }
-    .table-custom tbody tr:last-child td {
-        border-bottom: none;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #e6d3b3;
     }
     .table-custom tbody tr {
-        transition: background-color 0.2s ease;
+        background: #ffffff;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 12px rgba(124,94,60,0.08);
+        transition: transform 0.2s ease;
     }
     .table-custom tbody tr:hover {
-        background-color: #fdfaf5;
+        transform: translateY(-3px);
+    }
+    .table-custom td {
+        padding: 1rem;
+        vertical-align: middle;
     }
 
-    /* Tombol Kustom Premium */
+    /* Tombol */
     .btn-custom {
-        border-radius: 8px;
+        border-radius: 0.5rem;
         font-weight: 600;
         padding: 0.5rem 1rem;
         border: none;
         transition: all 0.2s ease;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
     }
     .btn-custom:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     .btn-add-room {
-        background-color: var(--brand-accent, #c5a47e);
-        color: var(--brand-text, #3e2723);
+        background: #fffbe9;
+        color: #7c5e3c;
+        border: 2px solid #e6d3b3;
+    }
+    .btn-add-room:hover {
+        background: #7c5e3c;
+        color: #fffbe9;
     }
     .btn-view-room {
-        background-color: #f0f0f0;
-        color: var(--brand-text, #3e2723);
+        background: #fdfaf5;
+        color: #7c5e3c;
     }
-     .btn-view-room:hover {
-        background-color: #e5e5e5;
+    .btn-view-room:hover {
+        background: #e6d3b3;
     }
     .btn-delete-room {
-        background-color: #fbebeb;
-        color: #ef4444;
+        background: #fceaea;
+        color: #d32f2f;
     }
     .btn-delete-room:hover {
-        background-color: #fee2e2;
+        background: #f8d7da;
     }
 
-    /* Badge Status Elegan */
+    /* Badge */
     .badge-status {
-        padding: 0.3em 0.8em;
+        padding: 0.4em 1em;
         border-radius: 50rem;
         font-weight: 600;
         font-size: 0.75rem;
     }
     .badge-available {
-        background-color: #e0f8e9;
-        color: #16a34a;
+        background: #e0f8e9;
+        color: #2e7d32;
     }
     .badge-booked {
-        background-color: #f3f4f6;
+        background: #f3f4f6;
         color: #4b5563;
     }
 
-    /* Modal Styling */
+    /* Modal */
+    .modal-content {
+        border-radius: 1rem;
+        border: none;
+    }
     .modal-header-custom {
-        background-color: var(--brand-primary, #5d4037);
-        color: white;
-    }
-    .modal-header-custom .modal-title {
-        font-weight: 600;
-    }
-    .modal-body-custom {
-        background-color: #fdfdfd;
+        background: linear-gradient(135deg, #7c5e3c, #a98467);
+        color: #fffbe9;
+        border-bottom: none;
     }
     .modal-footer-custom {
-        background-color: #f8f9fa;
+        background: #f8f6f3;
+        border-top: none;
     }
 </style>
 
-<div class="container">
+<div class="container py-4">
     <div class="card card-custom">
         <div class="card-header card-header-custom">
-            <h2>Room Listings</h2>
-             <button type="button" class="btn btn-custom btn-add-room" data-bs-toggle="modal" data-bs-target="#addRoomModal">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/></svg>
-                Add Room
-            </button>
+            <h2>Room Management</h2>
+            @if(auth()->user()->isAdmin())
+                <button type="button" class="btn btn-custom btn-add-room" data-bs-toggle="modal" data-bs-target="#addRoomModal">
+                    + Add Room
+                </button>
+            @endif
         </div>
+
         <div class="card-body card-body-custom">
             @if(session('success'))
-                <div class="alert alert-success mx-4 my-3">
+                <div class="alert alert-success mx-4 my-3 shadow-sm rounded-3">
                     {{ session('success') }}
                 </div>
             @endif
@@ -146,7 +151,7 @@
                             <th class="text-center">ID</th>
                             <th>Name</th>
                             <th class="text-end">Price</th>
-                            <th class="text-center">Capacity</th>                                 
+                            <th class="text-center">Capacity</th>
                             <th class="text-center">Status</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -155,7 +160,7 @@
                         @forelse($rooms as $room)
                             <tr>
                                 <td class="text-center fw-bold">{{ $room->id }}</td>
-                                <td>{{ $room->name_room }}</td>
+                                <td class="fw-semibold">{{ $room->name_room }}</td>
                                 <td class="text-end">Rp {{ number_format($room->price, 0, ',', '.') }}</td>
                                 <td class="text-center">{{ $room->capacity }}</td>
                                 <td class="text-center">
@@ -165,18 +170,22 @@
                                         <span class="badge-status badge-booked">Booked</span>
                                     @endif
                                 </td>
-                                <td class="text-center text-nowrap">
+                                <td class="text-center">
                                     <a href="{{ route('rooms.show', $room->id) }}" class="btn btn-sm btn-custom btn-view-room">View</a>
-                                    <form action="{{ route('rooms.destroy', $room->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-custom btn-delete-room" onclick="return confirm('Anda yakin ingin menghapus kamar ini?');">Delete</button>
-                                    </form>
+                                    @if(auth()->user()->isAdmin())
+                                        <form action="{{ route('rooms.destroy', $room->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-custom btn-delete-room" onclick="return confirm('Delete this room?');">Delete</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center p-4 text-muted">Belum ada kamar tersedia. Silakan tambahkan kamar baru.</td>
+                                <td colspan="6" class="text-center p-4 text-muted">
+                                    No rooms available yet. Please add a new room.
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -186,43 +195,43 @@
     </div>
 </div>
 
-{{-- Modal (dengan style yang disempurnakan) --}}
-<div class="modal fade" id="addRoomModal" tabindex="-1" aria-labelledby="addRoomModalLabel" aria-hidden="true">
+{{-- Modal Add Room --}}
+<div class="modal fade" id="addRoomModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 1rem; border: none; overflow: hidden;">
+        <div class="modal-content shadow-lg">
             <div class="modal-header modal-header-custom">
-                <h5 class="modal-title" id="addRoomModalLabel">Add New Room</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title">Add New Room</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="{{ route('rooms.store') }}" method="POST">
                 @csrf
-                <div class="modal-body modal-body-custom p-4">
+                <div class="modal-body p-4">
                     <div class="mb-3">
-                        <label for="name_room" class="form-label fw-bold" style="color: var(--brand-primary);">Room Name</label>
+                        <label class="form-label fw-semibold">Room Name</label>
                         <input type="text" name="name_room" class="form-control" placeholder="e.g., Deluxe King" required>
                     </div>
                     <div class="mb-3">
-                        <label for="price" class="form-label fw-bold" style="color: var(--brand-primary);">Price (Rp)</label>
-                        <input type="number" name="price" class="form-control" min="0" placeholder="e.g., 250000" required>
+                        <label class="form-label fw-semibold">Price (Rp)</label>
+                        <input type="number" name="price" class="form-control" min="0" placeholder="250000" required>
                     </div>
                     <div class="mb-3">
-                        <label for="capacity" class="form-label fw-bold" style="color: var(--brand-primary);">Capacity</label>
-                        <input type="number" name="capacity" class="form-control" min="1" placeholder="e.g., 2" required>
+                        <label class="form-label fw-semibold">Capacity</label>
+                        <input type="number" name="capacity" class="form-control" min="1" placeholder="2" required>
                     </div>
                     <div class="mb-3">
-                        <label for="description" class="form-label fw-bold" style="color: var(--brand-primary);">Description</label>
+                        <label class="form-label fw-semibold">Description</label>
                         <textarea name="description" class="form-control" rows="3" placeholder="Enter room description"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="status" class="form-label fw-bold" style="color: var(--brand-primary);">Status</label>
+                        <label class="form-label fw-semibold">Status</label>
                         <select name="status" class="form-select" required>
                             <option value="available">Available</option>
                             <option value="booked">Booked</option>
                         </select>
                     </div>
                 </div>
-                <div class="modal-footer modal-footer-custom d-flex justify-content-end p-3">
-                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+                <div class="modal-footer modal-footer-custom">
+                    <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-custom btn-add-room">Save Room</button>
                 </div>
             </form>

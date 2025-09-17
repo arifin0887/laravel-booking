@@ -36,6 +36,10 @@ class BookingController extends Controller
      */
     public function create()
     {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         return view('bookings.create');
     }
 
@@ -47,6 +51,10 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $request->validate([
             'room_id' => 'required|exists:rooms,id',
             'user_id' => 'required|exists:users,id',
@@ -80,6 +88,10 @@ class BookingController extends Controller
      */
     public function edit(Booking $booking)
     {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $booking = Booking::findorFail($booking->id);
         return view('bookings.edit', compact('booking'));
     }
@@ -92,6 +104,10 @@ class BookingController extends Controller
      */
     public function update(Request $request, Booking $booking)
     {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $request->validate([
             'room_id' => 'required|exists:rooms,id',
             'user_id' => 'required|exists:users,id',
@@ -114,6 +130,10 @@ class BookingController extends Controller
      */
     public function destroy(Booking $booking)
     {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+        
         $booking->delete();
         return redirect()->route('bookings.index')
                          ->with('success', 'Booking deleted successfully.');

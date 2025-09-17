@@ -123,16 +123,22 @@
         background-color: #f8f9fa;
     }
 </style>
+
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card card-custom shadow-sm border-0">
                 <div class="card-header card-header-custom d-flex justify-content-between align-items-center">
                     <span>Bookings</span>
-                    <button type="button" class="btn-custom btn-add-booking" data-bs-toggle="modal" data-bs-target="#addBookingModal">
-                        <i class="bi bi-plus-circle me-2"></i> Add Booking
-                    </button>
+
+                    {{-- Hanya admin yang bisa tambah booking --}}
+                    @if(auth()->user()->isAdmin())
+                        <button type="button" class="btn-custom btn-add-booking" data-bs-toggle="modal" data-bs-target="#addBookingModal">
+                            <i class="bi bi-plus-circle me-2"></i> Add Booking
+                        </button>
+                    @endif
                 </div>
+
                 <div class="card-body card-body-custom">
                     @if(session('success'))
                         <div class="alert alert-success alert-dismissible fade show m-3" role="alert" style="background-color: #d4edda; color: #155724; border-color: #c3e6cb;">
@@ -140,6 +146,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
+
                     <div class="table-responsive table-responsive-custom">
                         <table class="table table-custom">
                             <thead>
@@ -170,13 +177,17 @@
                                         <td>{{ $booking->notes ?? '-' }}</td>
                                         <td class="text-end">
                                             <a href="{{ route('bookings.show', $booking->id) }}" class="btn-custom btn-view-booking me-2">View</a>
-                                            <a href="{{ route('bookings.edit', $booking->id) }}" class="btn-custom btn-add-booking">Edit</a>
-                                            {{-- Jika ada tombol delete --}}
-                                            {{-- <form method="POST" action="{{ route('bookings.destroy', $booking->id) }}" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn-custom btn-delete-booking" onclick="return confirm('Are you sure?')">Delete</button>
-                                            </form> --}}
+
+                                            {{-- Hanya admin yang bisa edit & delete --}}
+                                            @if(auth()->user()->isAdmin())
+                                                <a href="{{ route('bookings.edit', $booking->id) }}" class="btn-custom btn-add-booking">Edit</a>
+
+                                                <form method="POST" action="{{ route('bookings.destroy', $booking->id) }}" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn-custom btn-delete-booking" onclick="return confirm('Are you sure?')">Delete</button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

@@ -84,34 +84,128 @@
 
 @section('content')
 <div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card card-custom shadow-lg mb-4">
-                <div class="card-body p-5 text-center">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name ?? 'User') }}&background=e6d3b3&color=7c5e3c&size=128" alt="Avatar" class="avatar mb-3">
-                    <h2 class="dashboard-title mb-2">Welcome, {{ Auth::user()->name ?? 'User' }}!</h2>
-                    <p class="dashboard-text mb-0">You are successfully logged in to <strong>Booking App</strong>.</p>
+    {{-- Welcome Section --}}
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-md-4 d-flex align-items-center justify-content-center bg-gradient p-4">
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name ?? 'User') }}&background=7c5e3c&color=fff&size=150"
+                             alt="Avatar" class="rounded-circle border border-4 border-light shadow-lg">
+                    </div>
+                    <div class="col-md-8 p-5 d-flex flex-column justify-content-center">
+                        <h2 class="fw-bold mb-2 text-dark">Welcome, {{ Auth::user()->name ?? 'User' }} 👋</h2>
+                        <p class="text-muted mb-0">
+                            You are logged in as 
+                            <span class="badge bg-dark px-3 py-2">{{ ucfirst(Auth::user()->role) }}</span>
+                        </p>
+                    </div>
                 </div>
             </div>
-            {{-- <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="card menu-card h-100 text-center p-4">
-                        <h5 class="mb-3" style="color:#7c5e3c;">Room List</h5>
-                        <p class="mb-4" style="color:#a98467;">View, add, or manage all available rooms in the system.</p>
-                        <a href="{{ route('rooms.index') }}" class="menu-btn w-100">Go to Rooms</a>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card menu-card h-100 text-center p-4">
-                        <h5 class="mb-3" style="color:#7c5e3c;">Booking List</h5>
-                        <p class="mb-4" style="color:#a98467;">Check, create, or manage all bookings made by users.</p>
-                        <a href="{{ route('bookings.index') }}" class="menu-btn w-100">Go to Bookings</a>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     </div>
+
+    {{-- Dashboard Menu --}}
+    <div class="row g-4">
+        @if(Auth::user()->role === 'admin')
+            {{-- ADMIN MENU --}}
+            <div class="col-md-4">
+                <div class="card dashboard-card text-center h-100">
+                    <div class="card-body p-4">
+                        <div class="icon-circle bg-primary text-white mb-3">
+                            <i class="bi bi-house-door-fill fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold">Manage Rooms</h5>
+                        <p class="text-muted">Add, edit, and delete available rooms</p>
+                        <a href="{{ route('rooms.index') }}" class="btn btn-dark mt-3">Go</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card dashboard-card text-center h-100">
+                    <div class="card-body p-4">
+                        <div class="icon-circle bg-warning text-dark mb-3">
+                            <i class="bi bi-graph-up fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold">Booking</h5>
+                        <p class="text-muted">Check booking history & statistics</p>
+                        <a href="{{ route('bookings.index') }}" class="btn btn-dark mt-3">Go</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card dashboard-card text-center h-100">
+                    <div class="card-body p-4">
+                        <div class="icon-circle bg-success text-white mb-3">
+                            <i class="bi bi-people-fill fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold">Manage Users</h5>
+                        <p class="text-muted">View and control registered users</p>
+                        <a href="{{ route('users.index') }}" class="btn btn-dark mt-3">Go</a>
+                    </div>
+                </div>
+            </div>
+        @else
+            {{-- USER MENU --}}
+            <div class="col-md-6">
+                <div class="card dashboard-card text-center h-100">
+                    <div class="card-body p-4">
+                        <div class="icon-circle bg-info text-white mb-3">
+                            <i class="bi bi-calendar-plus-fill fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold">Book a Room</h5>
+                        <p class="text-muted">Choose a room and make your booking</p>
+                        <a href="{{ route('rooms.index') }}" class="btn btn-dark mt-3">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card dashboard-card text-center h-100">
+                    <div class="card-body p-4">
+                        <div class="icon-circle bg-danger text-white mb-3">
+                            <i class="bi bi-journal-text fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold">My Bookings</h5>
+                        <p class="text-muted">Check your booking status & history</p>
+                        <a href="{{ route('bookings.index') }}" class="btn btn-dark mt-3">View</a>
+                    </div>
+                </div>
+            </div>
+        @endif
+    </div>
 </div>
+
+{{-- Custom Style --}}
+<style>
+    .dashboard-card {
+        border: none;
+        border-radius: 1rem;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    .dashboard-card:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+    }
+    .icon-circle {
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 auto;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .bg-gradient {
+        background: linear-gradient(135deg, #7c5e3c, #a98467);
+        color: white;
+    }
+</style>
+
+{{-- Bootstrap Icons --}}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 @endsection
+
 </body>
 </html>

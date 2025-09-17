@@ -204,9 +204,17 @@
                     <div class="action-buttons">
                         <a href="{{ route('rooms.index') }}" class="btn btn-custom btn-back">Back to List</a>
                         <!-- TOMBOL INI SEKARANG MEMBUKA MODAL -->
-                        <button type="button" class="btn btn-custom btn-edit" data-bs-toggle="modal" data-bs-target="#editRoomModal">
-                            Edit Room
-                        </button>
+                        @if(auth()->user()->isAdmin())
+                            <button type="button" class="btn btn-custom btn-edit" data-bs-toggle="modal" data-bs-target="#editRoomModal">
+                                Edit Room
+                            </button>
+                        @endif
+
+                        @if(auth()->user()->isUser())
+                            <button type="button" class="btn btn-custom btn-edit" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                                Booking
+                            </button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -262,4 +270,60 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Booking -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 1rem; border: none; overflow: hidden;">
+            <div class="modal-header modal-header-custom">
+                <h5 class="modal-title" id="bookingModalLabel">Book This Room</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+      
+      <form method="POST" action="{{ route('bookings.store') }}">
+        @csrf
+
+        <div class="modal-body p-4">
+          <!-- Hidden Room ID -->
+          <input type="hidden" name="room_id" value="{{ $room->id }}">
+          <!-- Hidden User ID -->
+          <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+
+          <div class="mb-3">
+            <label class="form-label">Start Time</label>
+            <input type="datetime-local" name="start_time" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">End Time</label>
+            <input type="datetime-local" name="end_time" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-select" required>
+              <option value="pending" selected>Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Notes</label>
+            <textarea name="notes" class="form-control" rows="3" placeholder="Additional information (optional)"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer bg-light rounded-bottom-4">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-custom btn-edit">
+            <i class="bi bi-save me-1"></i> Save Booking
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
 @endsection
