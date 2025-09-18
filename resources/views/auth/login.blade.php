@@ -1,154 +1,233 @@
-{{-- <x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout> --}}
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Booking App</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Login - BookingApp</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    {{-- Baris @vite sengaja dinonaktifkan untuk menghilangkan error Anda --}}
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+
+    <!-- CSS LENGKAP DENGAN HEADER YANG DISEMPURNAKAN -->
     <style>
+        :root {
+            --brand-primary: #5d4037;
+            --brand-primary-hover: #4e342e;
+            --brand-text: #3e2723;
+            --bg-white: #ffffff;
+            --border-color: #e0d7cb;
+            --text-muted: #888888;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; overflow: hidden; }
         body {
-            background: #f8f6f3;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Inter', sans-serif;
+            color: var(--brand-text);
+            line-height: 1.6;
         }
-        .card-custom {
-            background: #fffbe9;
+
+        /* 
+        =========================================================
+        --- PERBAIKAN: Mengurangi lebar maksimal container ---
+        =========================================================
+        */
+        .container { 
+            width: 100%; 
+            max-width: 960px; /* Diubah dari 1100px menjadi 960px agar lebih ke tengah */
+            margin: 0 auto; 
+            padding: 0 1.5rem; 
+        }
+
+        /* --- Animasi --- */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Latar Belakang Kolase Buram --- */
+        .background-wrapper {
+            position: fixed;
+            inset: -2%;
+            z-index: -2;
+            filter: blur(8px) brightness(0.9);
+            transform: scale(1.1);
+        }
+        .background-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+        }
+        .grid-item img {
+            width: 100%;
+            height: auto;
             border-radius: 1rem;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+        }
+        
+        /* --- Header / Navbar --- */
+        .main-header {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(42, 32, 28, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .main-header .container { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            height: 70px; 
+        }
+        .main-header .logo-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 0.75rem; 
+            text-decoration: none; 
+        }
+        .main-header .logo-icon { color: var(--bg-white); }
+        .main-header .logo-text { font-size: 1.5rem; font-weight: 700; color: var(--bg-white); }
+        .btn-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-back-home:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* --- Modal Login --- */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            padding-top: 70px;
+        }
+        .login-modal {
+            width: 100%;
+            max-width: 450px;
+            background: var(--bg-white);
+            border-radius: 1.5rem;
+            padding: 2.5rem 3rem;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.7s ease-out;
+            position: relative;
+        }
+        .modal-header-custom h2 { font-size: 1.75rem; font-weight: 700; }
+        .modal-subtitle { color: var(--text-muted); margin-bottom: 2.5rem; }
+        
+        .input-group { position: relative; margin-bottom: 2rem; }
+        .form-label-custom {
+            font-weight: 500;
+            color: var(--text-muted);
+            position: absolute;
+            top: 0.8rem;
+            left: 0.25rem;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .form-control-custom {
+            width: 100%;
             border: none;
+            border-bottom: 2px solid var(--border-color);
+            padding: 0.75rem 0.25rem;
+            font-size: 1rem;
+            background: transparent;
         }
-        .btn-custom {
-            background-color: #7c5e3c;
-            color: #fffbe9;
-            font-family: 'Playfair Display', serif;
+        .form-control-custom:focus { outline: none; border-bottom-color: var(--brand-primary); }
+        .form-control-custom:focus ~ .form-label-custom,
+        .form-control-custom:not(:placeholder-shown) ~ .form-label-custom {
+            transform: translateY(-1.5rem) scale(0.8);
+            color: var(--brand-primary);
         }
-        .btn-custom:hover {
-            background-color: #a98467;
-            color: #fffbe9;
+        
+        .btn-login {
+            width: 100%;
+            background: var(--brand-primary);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 0.9rem;
+            border: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
-        .form-label {
-            color: #7c5e3c;
-        }
-        .form-check-label {
-            color: #7c5e3c;
-        }
-        .forgot-link {
-            color: #d4a373;
-        }
-        .forgot-link:hover {
-            color: #7c5e3c;
+        .btn-login:hover {
+            background-color: var(--brand-primary-hover);
+            box-shadow: 0 5px 20px rgba(93, 64, 55, 0.3);
+            transform: translateY(-3px);
         }
     </style>
 </head>
 <body>
-    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-        <div class="card card-custom w-100" style="max-width: 400px;">
-            <div class="card-body p-5">
-                <div class="text-center mb-4">
-                    {{-- Logo opsional --}}
-                    {{-- <img src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 60px; height: 60px;"> --}}
-                    <h3 class="mt-2 mb-0" style="color: #7c5e3c;">Login</h3>
-                </div>
-
-                @if (session('status'))
-                    <div class="alert alert-success">
-                        {{ session('status') }}
-                    </div>
-                @endif
-
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
-
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input id="email" type="email" 
-                            class="form-control @error('email') is-invalid @enderror"
-                            name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
-                            style="background-color: #fffbe9; border-color: #e6d3b3;">
-                        @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input id="password" type="password" 
-                            class="form-control @error('password') is-invalid @enderror"
-                            name="password" required autocomplete="current-password"
-                            style="background-color: #fffbe9; border-color: #e6d3b3;">
-                        @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" id="remember_me" name="remember">
-                        <label class="form-check-label" for="remember_me">
-                            Remember me
-                        </label>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center">
-                        @if (Route::has('password.request'))
-                            <a class="forgot-link text-decoration-none" href="{{ route('password.request') }}">
-                                Forgot your password?
-                            </a>
-                        @endif
-
-                        <button type="submit" class="btn btn-custom px-4">
-                            Login
-                        </button>
-                    </div>
-                </form>
-            </div>
+    
+    <div class="background-wrapper">
+        <div class="background-grid">
+            <!-- Gambar-gambar untuk kolase -->
+            <div><div class="grid-item"><img src="https://images.unsplash.com/photo-1562778612-e1e0cda99154?q=80&w=2006&auto=format&fit=crop"></div><div class="grid-item"><img src="https://images.unsplash.com/photo-1596436889106-be35e843f974?q=80&w=2070&auto=format&fit=crop"></div></div>
+            <div><div class="grid-item"><img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f458?q=80&w=2070&auto=format&fit=crop"></div><div class="grid-item"><img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop"></div></div>
+            <div><div class="grid-item"><img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop"></div><div class="grid-item"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=2070&auto=format&fit=crop"></div></div>
+            <div><div class="grid-item"><img src="https://images.unsplash.com/photo-1590490359854-dfba59585b73?q=80&w=1999&auto=format&fit=crop"></div><div class="grid-item"><img src="https://images.unsplash.com/photo-1549294413-26f195200c16?q=80&w=1964&auto=format&fit=crop"></div></div>
+            <div><div class="grid-item"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070&auto=format&fit=crop"></div><div class="grid-item"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop"></div></div>
         </div>
     </div>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="{{ url('/') }}" class="logo-container">
+                <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L8.707 1.5Z"/><path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z"/></svg>
+                <span class="logo-text">BookingApp</span>
+            </a>
+            <nav>
+                <a href="{{ url('/') }}" class="btn-back-home">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/></svg>
+                     <span>Beranda</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="login-container">
+        <div class="login-modal">
+            <div class="modal-header-custom">
+                <h2>Selamat Datang Kembali</h2>
+            </div>
+            <p class="modal-subtitle">Masuk dengan akun Anda untuk melanjutkan.</p>
+
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <div class="input-group">
+                    <input id="email" type="email" class="form-control-custom" name="email" value="{{ old('email') }}" required autofocus placeholder=" ">
+                    <label for="email" class="form-label-custom">Email</label>
+                </div>
+                
+                <div class="input-group">
+                    <input id="password" type="password" class="form-control-custom" name="password" required placeholder=" ">
+                    <label for="password" class="form-label-custom">Password</label>
+                </div>
+                
+                <button type="submit" class="btn-login">Login</button>
+            </form>
+        </div>
+    </div>
+
 </body>
 </html>

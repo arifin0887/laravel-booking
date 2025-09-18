@@ -11,97 +11,91 @@ class BookingController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * Menampilkan daftar semua data Booking.
-     *
-     * Mengambil semua data Booking lengkap dengan relasi Room dan User menggunakan Eloquent ORM.
-     * Juga mengambil semua Room dan User untuk kebutuhan form tambah Booking.
-     *
+     * LOGIKA BARU: Menampilkan data berdasarkan peran pengguna.
      */
     public function index()
     {
-        // ambil booking lengkap dengan relasi room & user
-        $bookings = Booking::with(['room', 'user'])->get();
-
-        // ambil semua room & user untuk form tambah booking
+        // Ambil semua room dan user, ini dibutuhkan untuk form modal admin
         $rooms = Room::all();
         $users = User::all();
 
+        if (auth()->user()->role === 'admin') {
+            // Jika admin, ambil semua data booking
+            $bookings = Booking::with(['room', 'user'])->latest()->get();
+        } else {
+            // Jika bukan admin, hanya ambil booking milik pengguna yang sedang login
+            $bookings = Booking::with(['room', 'user'])
+                                ->where('user_id', auth()->id())
+                                ->latest()
+                                ->get();
+        }
+
+        // Kirim data yang sudah difilter ke view
         return view('bookings.index', compact('bookings', 'rooms', 'users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * Menampilkan form untuk membuat Booking baru.
-     * Mengembalikan view `bookings.create` yang berisi form input data Booking.
-     */
-    public function create()
-    {
-        if (!auth()->user()->isAdmin()) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        return view('bookings.create');
-    }
 
     /**
      * Store a newly created resource in storage.
-     * Menyimpan data Booking baru ke database.
-     * Melakukan validasi input, kemudian menyimpan data Booking baru menggunakan Eloquent ORM.
-     * Setelah berhasil, redirect ke halaman daftar Booking dengan pesan sukses.
+     * LOGIKA BARU: Membedakan penyimpanan antara Admin dan User.
      */
     public function store(Request $request)
     {
-        if (!auth()->user()->isAdmin()) {
-            abort(403, 'Unauthorized action.');
+        // Aturan validasi dasar
+        $rules = [
+            'room_id' => 'required|exists:rooms,id',
+            'start_time' => 'required|date|after_or_equal:now',
+            'end_time' => 'required|date|after:start_time',
+            'notes' => 'nullable|string|max:500',
+        ];
+
+        // Jika yang membuat adalah admin, tambahkan aturan validasi untuk user_id dan status
+        if (auth()->user()->role === 'admin') {
+            $rules['user_id'] = 'required|exists:users,id';
+            $rules['status'] = 'required|string|in:pending,confirmed,cancelled';
         }
 
-        $request->validate([
-            'room_id' => 'required|exists:rooms,id',
-            'user_id' => 'required|exists:users,id',
-            'start_time' => 'required|date',
-            'end_time' => 'required|date|after:start_time',
-            'status' => 'required|string|in:pending,confirmed,cancelled',
-            'notes' => 'nullable|string',
-        ]);
+        $request->validate($rules);
 
-        Booking::create($request->all());
+        // Siapkan data untuk disimpan
+        $data = $request->all();
+
+        // Jika yang membuat BUKAN admin, user_id diambil dari pengguna yang login dan status defaultnya 'pending'
+        if (auth()->user()->role !== 'admin') {
+            $data['user_id'] = auth()->id();
+            $data['status'] = 'pending'; // Status default untuk user
+        }
+
+        Booking::create($data);
 
         return redirect()->route('bookings.index')
                          ->with('success', 'Booking created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     * Menampilkan detail Booking tertentu.
-     * Mengambil data Booking beserta relasi rooms, lalu mengirimkan ke view `bookings.show`.
-     */
+
+    // --- Method lainnya bisa dibiarkan seperti yang sudah Anda buat, karena sudah bagus ---
+    // --- Pastikan proteksi `!auth()->user()->isAdmin()` tetap ada di method sensitif seperti update & destroy ---
+
     public function show(Booking $booking)
     {
-        $booking = Booking::with('rooms')->find($booking->id);
+        // Proteksi agar user hanya bisa melihat booking miliknya
+        if (auth()->user()->role !== 'admin' && $booking->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+        
+        $booking = Booking::with('room')->find($booking->id);
         return view('bookings.show', compact('booking'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * Menampilkan form untuk mengedit Booking tertentu.
-     * Mengambil data Booking berdasarkan ID, lalu mengirimkan ke view `bookings.edit
-     */
     public function edit(Booking $booking)
     {
         if (!auth()->user()->isAdmin()) {
             abort(403, 'Unauthorized action.');
         }
 
-        $booking = Booking::findorFail($booking->id);
         return view('bookings.edit', compact('booking'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     * Melakukan validasi input, kemudian memperbarui data Booking yang dipilih.
-     * Setelah berhasil, redirect ke halaman daftar Booking dengan pesan sukses.
-     * 
-     */
+    
     public function update(Request $request, Booking $booking)
     {
         if (!auth()->user()->isAdmin()) {
@@ -123,11 +117,6 @@ class BookingController extends Controller
                          ->with('success', 'Booking updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * Menghapus Booking berdasarkan ID, lalu redirect ke halaman daftar Booking dengan pesan sukses.
-     * 
-     */
     public function destroy(Booking $booking)
     {
         if (!auth()->user()->isAdmin()) {
