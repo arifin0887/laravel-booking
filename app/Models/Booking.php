@@ -35,9 +35,19 @@ class Booking extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function rooms(): BelongsTo
+    public function room(): BelongsTo
     {
         return $this->belongsTo(Room::class, 'room_id', 'id');
+    }
+
+    /**
+     * Get the parent that owns the {{ class }}
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     // /**

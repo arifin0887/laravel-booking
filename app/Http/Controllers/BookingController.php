@@ -88,13 +88,17 @@ class BookingController extends Controller
     }
 
     public function edit(Booking $booking)
-    {
-        if (!auth()->user()->isAdmin()) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        return view('bookings.edit', compact('booking'));
+{
+    if (!auth()->user()->isAdmin()) {
+        abort(403, 'Unauthorized action.');
     }
+
+    $rooms = Room::all();
+    $users = User::all();
+
+    return view('bookings.edit', compact('booking', 'rooms', 'users'));
+}
+
     
     public function update(Request $request, Booking $booking)
     {

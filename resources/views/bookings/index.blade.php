@@ -148,7 +148,9 @@
                                 <td class="text-center">
                                     <a href="{{ route('bookings.show', $booking->id) }}" class="btn btn-sm btn-custom btn-action-view">View</a>
                                     @if(auth()->user()->role === 'admin')
-                                        <a href="{{ route('bookings.edit', $booking->id) }}" class="btn btn-sm btn-custom btn-action-edit">Edit</a>
+                                    <button class="btn btn-sm btn-custom btn-action-edit" data-bs-toggle="modal" data-bs-target="#editBookingModal{{ $booking->id }}">
+                                        Edit
+                                    </button>
                                     @endif
                                 </td>
                             </tr>
@@ -225,6 +227,77 @@
             </form>
         </div>
     </div>
+</div>
+@endif
+
+@if(auth()->user()->role === 'admin')
+<div class="modal fade" id="editBookingModal{{ $booking->id }}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" style="background-color: #fffbe9;">
+      <div class="modal-header" style="background-color: #e6d3b3;">
+        <h5 class="modal-title" style="font-family: 'Playfair Display', serif; color: #7c5e3c;">
+          Edit Booking: {{ $booking->room->name_room }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="{{ route('bookings.update', $booking->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="modal-body">
+
+          <div class="mb-3">
+            <label for="room_id{{ $booking->id }}" class="form-label" style="color: #7c5e3c;">Room</label>
+            <select name="room_id" id="room_id{{ $booking->id }}" class="form-select" required>
+              @foreach($rooms as $room)
+                <option value="{{ $room->id }}" {{ $booking->room_id == $room->id ? 'selected' : '' }}>
+                  {{ $room->name_room }}
+                </option>
+              @endforeach
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="user_id{{ $booking->id }}" class="form-label" style="color: #7c5e3c;">User</label>
+            <select name="user_id" id="user_id{{ $booking->id }}" class="form-select" required>
+              @foreach($users as $user)
+                <option value="{{ $user->id }}" {{ $booking->user_id == $user->id ? 'selected' : '' }}>
+                  {{ $user->name }}
+                </option>
+              @endforeach
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="start_time{{ $booking->id }}" class="form-label" style="color: #7c5e3c;">Start Time</label>
+            <input type="datetime-local" name="start_time" id="start_time{{ $booking->id }}" 
+                    class="form-control"
+                    value="{{ \Carbon\Carbon::parse($booking->start_time)->format('Y-m-d\TH:i') }}" required>
+            </div>
+
+            <div class="mb-3">
+            <label for="end_time{{ $booking->id }}" class="form-label" style="color: #7c5e3c;">End Time</label>
+            <input type="datetime-local" name="end_time" id="end_time{{ $booking->id }}" 
+                    class="form-control"
+                    value="{{ \Carbon\Carbon::parse($booking->end_time)->format('Y-m-d\TH:i') }}" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="status{{ $booking->id }}" class="form-label" style="color: #7c5e3c;">Status</label>
+            <select name="status" id="status{{ $booking->id }}" class="form-select" required>
+              <option value="pending" {{ $booking->status == 'pending' ? 'selected' : '' }}>Pending</option>
+              <option value="confirmed" {{ $booking->status == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
+            </select>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-custom btn-add-booking">Update Booking</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 @endif
 @endsection

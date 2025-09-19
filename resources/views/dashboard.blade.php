@@ -157,7 +157,7 @@
                         <div class="action-icon icon-blue">
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                         </div>
-                        <h3>Manage Rooms</h3>
+                        <h3>Manage Room</h3>
                         <p>Add, edit, or view room details</p>
                     </div>
                     <a href="{{ route('rooms.index') }}" class="btn-action">Go</a>
@@ -169,7 +169,7 @@
                         <div class="action-icon icon-orange">
                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 2v6h6V2H2.5zM15.5 2v6h6V2h-6zM2.5 16v6h6v-6H2.5zM15.5 16v6h6v-6h-6z"/></svg>
                         </div>
-                        <h3>Manage Bookings</h3>
+                        <h3>Manage Booking</h3>
                         <p>View and confirm all user bookings</p>
                     </div>
                     <a href="{{ route('bookings.index') }}" class="btn-action">Go</a>
@@ -181,7 +181,7 @@
                         <div class="action-icon icon-green">
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                         </div>
-                        <h3>Manage Users</h3>
+                        <h3>Manage User</h3>
                         <p>View and manage all registered users</p>
                     </div>
                     <a href="{{ route('users.index') }}" class="btn-action">Go</a>

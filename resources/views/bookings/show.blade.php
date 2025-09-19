@@ -11,8 +11,8 @@
                 <div class="card-body">
                     <p><strong style="color: #7c5e3c;">Room Name:</strong> {{ $booking->room->name_room ?? '-' }}</p>
                     <p><strong style="color: #7c5e3c;">User Name:</strong> {{ $booking->user->name ?? '-' }}</p>
-                    <p><strong style="color: #7c5e3c;">Check-in Date:</strong> {{ $booking->check_in }}</p>
-                    <p><strong style="color: #7c5e3c;">Check-out Date:</strong> {{ $booking->check_out }}</p>
+                    <p><strong style="color: #7c5e3c;">Check-in Date:</strong> {{ $booking->start_time }}</p>
+                    <p><strong style="color: #7c5e3c;">Check-out Date:</strong> {{ $booking->end_time }}</p>
                     <p><strong style="color: #7c5e3c;">Status:</strong> 
                         <span class="badge {{ $booking->status === 'confirmed' ? 'bg-success' : 'bg-warning' }}">
                             {{ ucfirst($booking->status) }}
