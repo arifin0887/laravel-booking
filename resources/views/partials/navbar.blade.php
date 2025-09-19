@@ -24,6 +24,14 @@
                          <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index')}}">Guests</a>
                         </li>
+                    @else
+                        {{-- Menu Khusus untuk User Biasa --}}
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('rooms.index') ? 'active' : '' }}" href="{{ route('rooms.index') }}">Rooms</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('bookings.index') ? 'active' : '' }}" href="{{ route('bookings.index') }}">My Bookings</a>
+                        </li>
                     @endif
 
                     {{-- Tombol Logout --}}

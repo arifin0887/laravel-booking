@@ -4,58 +4,95 @@
 <style>
     /* Style dasar halaman (disamakan dengan halaman rooms) */
     .card-custom {
-        border-radius: 1rem; border: none;
+        border-radius: 1rem;
+        border: none;
         box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-        overflow: hidden; background-color: var(--bg-white, #ffffff);
+        overflow: hidden;
+        background-color: var(--bg-white, #ffffff);
     }
     .card-header-custom {
-        background-color: var(--brand-primary-dark, #5d4037); color: white;
-        padding: 1.25rem 1.5rem; display: flex; justify-content: space-between;
+        background-color: var(--brand-primary-dark, #5d4037);
+        color: white;
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
         align-items: center;
     }
     .card-header-custom h2 {
-        font-family: 'Playfair Display', serif; font-weight: 700;
-        font-size: 1.5rem; margin-bottom: 0;
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 0;
     }
     .card-body-custom {
-        padding: 1.5rem; background-color: #fffaf0;
+        padding: 1.5rem;
+        background-color: #fffaf0;
     }
     .table-custom {
-        width: 100%; border-collapse: collapse; background-color: var(--bg-white, #ffffff);
-        border-radius: 0.75rem; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        width: 100%;
+        border-collapse: collapse;
+        background-color: var(--bg-white, #ffffff);
+        border-radius: 0.75rem;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
     .table-custom th, .table-custom td {
-        padding: 1rem 1.25rem; vertical-align: middle;
-        text-align: left; border-bottom: 1px solid #f0e9e1;
+        padding: 1rem 1.25rem;
+        vertical-align: middle;
+        text-align: left;
+        border-bottom: 1px solid #f0e9e1;
     }
     .table-custom thead th {
-        font-weight: 600; color: var(--text-muted, #757575);
-        text-transform: uppercase; font-size: 0.75rem;
-        letter-spacing: 0.5px; border-bottom-width: 2px;
+        font-weight: 600;
+        color: var(--text-muted, #757575);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        background-color: #f8f9fa;
     }
-    .table-custom tbody tr:last-child td { border-bottom: none; }
-    
-    .filter-bar {
-        display: flex; justify-content: space-between; align-items: center;
-        margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
+    .table-custom tbody tr:last-child td {
+        border-bottom: none;
     }
     
     /* Tombol Kustom */
     .btn-custom {
-        border-radius: 8px; font-weight: 600; padding: 0.5rem 1rem;
-        border: none; transition: all 0.2s ease;
+        border-radius: 8px;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border: none;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+     .btn-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     .btn-add-booking {
-        background-color: var(--brand-accent, #c5a47e); color: var(--brand-text, #3e2723);
+        background-color: var(--brand-accent, #c5a47e);
+        color: var(--brand-text, #3e2723);
     }
     .btn-action-view { background-color: #f0f0f0; color: var(--brand-text, #3e2723); }
     .btn-action-edit { background-color: #e0e7ff; color: #4338ca; }
-    .btn-action-delete { background-color: #fbebeb; color: #ef4444; }
     
     /* Badge Status */
     .badge-status { padding: 0.3em 0.8em; border-radius: 50rem; font-weight: 600; font-size: 0.75rem; }
     .badge-confirmed { background-color: #e0f8e9; color: #16a34a; }
     .badge-pending { background-color: #fffbeb; color: #f59e0b; }
+    
+    /* Modal Styling */
+    .modal-content-custom { background-color: #fdfaf5; border: none; border-radius: 1rem; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+    .modal-header-custom { background-color: #8a6d4c; padding: 1rem 1.5rem; border-bottom: none; color: white; }
+    .modal-header-custom .modal-title { font-family: 'Playfair Display', serif; font-weight: 700; }
+    .modal-body-custom { padding: 2rem; }
+    .form-label-custom { font-weight: 600; color: var(--brand-text); margin-bottom: 0.5rem; }
+    .form-control-custom, .form-select-custom { border-radius: 8px; padding: 0.75rem 1rem; border: 1px solid #d1c4b7; background-color: var(--bg-white); }
+    .form-control-custom:focus, .form-select-custom:focus { border-color: var(--brand-primary-dark); box-shadow: 0 0 0 3px rgba(93, 64, 55, 0.2); }
+    .modal-footer-custom { background-color: #f8f6f3; border-top: 1px solid #f0e9e1; padding: 1rem 2rem; display: flex; justify-content: flex-end; }
+    .btn-cancel { background-color: #6c757d; color: white; }
+    .btn-save { background-color: #fffbe9; color: #7c5e3c; border: 1px solid #e6d3b3; }
 </style>
 
 <div class="container">
@@ -75,7 +112,7 @@
         </div>
         <div class="card-body card-body-custom">
             @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
+                <div class="alert alert-success m-4">{{ session('success') }}</div>
             @endif
 
             <div class="table-responsive">
@@ -97,7 +134,7 @@
                         @forelse($bookings as $booking)
                             <tr>
                                 <td class="fw-bold">{{ $loop->iteration }}</td>
-                                <td>{{ $booking->room->name_room ?? '-' }}</td>
+                                <td>{{ $booking->room->name_room ?? '-' }}</td> {{-- PERBAIKAN DI SINI --}}
                                 @if(auth()->user()->role === 'admin')
                                     <td>{{ $booking->user->name ?? '-' }}</td>
                                 @endif
@@ -109,9 +146,9 @@
                                     </span>
                                 </td>
                                 <td class="text-center">
-                                    <a href="#" class="btn btn-sm btn-custom btn-action-view">View</a>
+                                    <a href="{{ route('bookings.show', $booking->id) }}" class="btn btn-sm btn-custom btn-action-view">View</a>
                                     @if(auth()->user()->role === 'admin')
-                                        <a href="#" class="btn btn-sm btn-custom btn-action-edit">Edit</a>
+                                        <a href="{{ route('bookings.edit', $booking->id) }}" class="btn btn-sm btn-custom btn-action-edit">Edit</a>
                                     @endif
                                 </td>
                             </tr>
@@ -133,11 +170,60 @@
     </div>
 </div>
 
-{{-- Modal Add Booking (Hanya untuk Admin) --}}
+{{-- Modal Add Booking (Hanya akan dirender jika pengguna adalah Admin) --}}
 @if(auth()->user()->role === 'admin')
 <div class="modal fade" id="addBookingModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        {{-- ... Kode modal lengkap Anda dari request sebelumnya ... --}}
+        <div class="modal-content modal-content-custom">
+            <div class="modal-header modal-header-custom">
+                <h5 class="modal-title">Add New Booking</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('bookings.store') }}" method="POST">
+                @csrf
+                <div class="modal-body modal-body-custom">
+                    <div class="mb-3">
+                        <label for="room_id" class="form-label-custom">Room</label>
+                        <select name="room_id" class="form-select form-select-custom" required>
+                            @foreach($rooms as $room)
+                                <option value="{{ $room->id }}">{{ $room->name_room }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="user_id" class="form-label-custom">User</label>
+                        <select name="user_id" class="form-select form-select-custom" required>
+                            @foreach($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="start_time" class="form-label-custom">Start Time</label>
+                        <input type="datetime-local" name="start_time" class="form-control form-control-custom" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="end_time" class="form-label-custom">End Time</label>
+                        <input type="datetime-local" name="end_time" class="form-control form-control-custom" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label-custom">Status</label>
+                        <select name="status" class="form-select form-select-custom" required>
+                            <option value="pending">Pending</option>
+                            <option value="confirmed">Confirmed</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="notes" class="form-label-custom">Notes</label>
+                        <textarea name="notes" class="form-control form-control-custom" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-custom">
+                    <button type="button" class="btn btn-custom btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-custom btn-save">Save Booking</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 @endif

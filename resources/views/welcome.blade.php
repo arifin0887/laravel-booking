@@ -13,7 +13,7 @@
     {{-- Baris @vite sengaja dinonaktifkan untuk menghilangkan error Anda --}}
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
     
-    <!-- Bootstrap 5 CSS & JS (untuk fungsionalitas Modal) -->
+    <!-- Bootstrap 5 CSS (Hanya untuk fungsionalitas) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- CSS LENGKAP DENGAN SEMUA PERBAIKAN -->
@@ -85,25 +85,84 @@
             background-color: rgba(255,255,255,0.25);
         }
 
-        /* Sisa CSS lainnya tetap sama */
-        .hero { position: relative; height: 85vh; min-height: 600px; display: flex; align-items: center; justify-content: center; text-align: center; background-image: url('https://images.unsplash.com/photo-1564501049412-61c2a3083791?q=80&w=2232&auto=format&fit=crop'); background-size: cover; background-position: center 30%; }
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            height: 85vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-image: url('https://images.unsplash.com/photo-1564501049412-61c2a3083791?q=80&w=2232&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center 30%;
+        }
         .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(62,39,35,0.8) 100%); }
         .hero-content { position: relative; z-index: 10; color: #fff; }
         .hero h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 1rem; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
         .hero p { font-size: 1.2rem; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
-        .hero-categories { margin-top: 2rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-        .category-link { background: rgba(255,255,255,0.1); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2); padding: 0.5rem 1.25rem; border-radius: 50px; color: #fff; transition: background-color 0.3s; }
-        .category-link:hover { background: rgba(255,255,255,0.2); }
+        .hero-categories {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .category-link {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            color: #fff;
+            transition: background-color 0.3s;
+        }
+        .category-link:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
         .section-heading { text-align: center; margin-bottom: 3rem; }
         .section-heading h2 { font-size: 2.5rem; font-weight: 700; }
         .section-heading p { color: var(--text-muted); max-width: 500px; margin: 0.5rem auto 0 auto; }
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-        .feature-item { text-align: center; background: var(--bg-white); padding: 2.5rem 2rem; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border: 1px solid #f0f0f0; }
-        .feature-item .icon { color: var(--brand-primary); margin-bottom: 1.5rem; }
-        .feature-item h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; }
-        .feature-item p { font-size: 1rem; color: var(--text-muted); line-height: 1.6; }
+        
+        .features-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 2rem; 
+        }
+        .feature-item { 
+            text-align: center; 
+            background: var(--bg-white); 
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08); 
+            border: 1px solid #f0f0f0;
+        }
+        .feature-item .icon { 
+            color: var(--brand-primary); 
+            margin-bottom: 1.5rem;
+        }
+        .feature-item h3 { 
+            font-size: 1.25rem;
+            font-weight: 600; 
+            margin-bottom: 0.75rem; 
+        }
+        .feature-item p { 
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
         .rooms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .room-card { background-color: var(--bg-white); border-radius: 12px; text-decoration: none; color: var(--brand-text); box-shadow: 0 5px 25px rgba(0,0,0,0.07); transition: all 0.3s ease; }
+        .room-card {
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--brand-text);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.07);
+            transition: all 0.3s ease;
+        }
         .room-card:hover { transform: translateY(-8px); box-shadow: 0 12px 35px rgba(0,0,0,0.1); }
         .room-card img { width: 100%; height: 200px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px; }
         .room-card-content { padding: 1.5rem; }
@@ -111,32 +170,8 @@
         .room-card .location { color: #777; }
         .room-card .price { font-size: 1.4rem; font-weight: 700; color: var(--brand-primary); margin-top: 1rem; }
         .room-card .price span { font-size: 0.9rem; font-weight: 400; color: #777; }
+        
         .main-footer { background-color: var(--brand-text); color: rgba(255,255,255,0.7); padding: 3rem 0; text-align: center; }
-
-        /* --- Style untuk Modal "WOW" --- */
-        .modal-content-custom {
-            background-color: var(--bg-light);
-            border-radius: 1rem;
-            border: none;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
-        .modal-header-custom {
-            background-color: var(--brand-primary);
-            color: white;
-            border-bottom: none;
-            padding: 1.5rem;
-        }
-        .modal-header-custom .modal-title { font-weight: 600; }
-        .modal-body-custom .form-label { color: var(--brand-primary); font-weight: 600; }
-        .modal-body-custom .form-control {
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--border-color);
-        }
-        .modal-body-custom .form-control:focus {
-            border-color: var(--brand-primary);
-            box-shadow: 0 0 0 3px rgba(93, 64, 55, 0.2);
-        }
     </style>
 </head>
 
@@ -156,8 +191,7 @@
                     <a href="{{ url('/dashboard') }}">Dashboard</a>
                 @else
                     <a href="{{ route('login') }}">Masuk</a>
-                    {{-- TOMBOL BARU UNTUK MEMBUKA MODAL --}}
-                    <a href="#" class="btn btn-register" data-bs-toggle="modal" data-bs-target="#registerModal">Daftar</a>
+                    <a href="{{ route('register') }}" class="btn btn-register">Daftar</a>
                 @endauth
             </nav>
         </div>
@@ -242,42 +276,6 @@
             <p>&copy; {{ date('Y') }} BookingApp. All Rights Reserved.</p>
         </div>
     </footer>
-
-    <!-- ====================================================== -->
-    <!-- MODAL REGISTRASI PENGGUNA BARU DENGAN TAMPILAN "WOW" -->
-    <!-- ====================================================== -->
-    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-content-custom">
-                <div class="modal-header modal-header-custom">
-                    <h1 class="modal-title fs-5" id="registerModalLabel">Buat Akun Baru</h1>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body modal-body-custom p-4">
-                    <form action="{{ route('register') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nama Lengkap</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Alamat Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        <div class="mb-4">
-                            <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 py-2">Daftar Sekarang</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
