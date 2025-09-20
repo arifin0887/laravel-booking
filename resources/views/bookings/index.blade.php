@@ -119,7 +119,7 @@
                 <table class="table-custom">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>ID</th>
                             <th>Room</th>
                             @if(auth()->user()->role === 'admin')
                                 <th>User</th>
@@ -154,6 +154,78 @@
                                     @endif
                                 </td>
                             </tr>
+
+                            @if(auth()->user()->role === 'admin')
+                            <div class="modal fade" id="editBookingModal{{ $booking->id }}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content" style="background-color: #fffbe9;">
+                                <div class="modal-header" style="background-color: #e6d3b3;">
+                                    <h5 class="modal-title" style="font-family: 'Playfair Display', serif; color: #7c5e3c;">
+                                    Edit Booking: {{ $booking->room->name_room }}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <form action="{{ route('bookings.update', $booking->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="modal-body">
+
+                                    <div class="mb-3">
+                                        <label for="room_id{{ $booking->id }}" class="form-label" style="color: #7c5e3c;">Room</label>
+                                        <select name="room_id" id="room_id{{ $booking->id }}" class="form-select" required>
+                                        @foreach($rooms as $room)
+                                            <option value="{{ $room->id }}" {{ $booking->room_id == $room->id ? 'selected' : '' }}>
+                                            {{ $room->name_room }}
+                                            </option>
+                                        @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="user_id{{ $booking->id }}" class="form-label" style="color: #7c5e3c;">User</label>
+                                        <select name="user_id" id="user_id{{ $booking->id }}" class="form-select" required>
+                                        @foreach($users as $user)
+                                            <option value="{{ $user->id }}" {{ $booking->user_id == $user->id ? 'selected' : '' }}>
+                                            {{ $user->name }}
+                                            </option>
+                                        @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="start_time{{ $booking->id }}" class="form-label" style="color: #7c5e3c;">Start Time</label>
+                                        <input type="datetime-local" name="start_time" id="start_time{{ $booking->id }}" 
+                                                class="form-control"
+                                                value="{{ \Carbon\Carbon::parse($booking->start_time)->format('Y-m-d\TH:i') }}" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                        <label for="end_time{{ $booking->id }}" class="form-label" style="color: #7c5e3c;">End Time</label>
+                                        <input type="datetime-local" name="end_time" id="end_time{{ $booking->id }}" 
+                                                class="form-control"
+                                                value="{{ \Carbon\Carbon::parse($booking->end_time)->format('Y-m-d\TH:i') }}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="status{{ $booking->id }}" class="form-label" style="color: #7c5e3c;">Status</label>
+                                        <select name="status" id="status{{ $booking->id }}" class="form-select" required>
+                                        <option value="pending" {{ $booking->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                        <option value="confirmed" {{ $booking->status == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
+                                        </select>
+                                    </div>
+                                    
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-custom btn-add-booking">Update Booking</button>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                            </div>
+                            @endif
+                            
                         @empty
                             <tr>
                                 <td colspan="{{ auth()->user()->role === 'admin' ? '7' : '6' }}" class="text-center p-4 text-muted">
@@ -184,30 +256,38 @@
             <form action="{{ route('bookings.store') }}" method="POST">
                 @csrf
                 <div class="modal-body modal-body-custom">
-                    <div class="mb-3">
-                        <label for="room_id" class="form-label-custom">Room</label>
-                        <select name="room_id" class="form-select form-select-custom" required>
-                            @foreach($rooms as $room)
-                                <option value="{{ $room->id }}">{{ $room->name_room }}</option>
-                            @endforeach
-                        </select>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="room_id" class="form-label-custom">Room</label>
+                            <select name="room_id" class="form-select form-select-custom" required>
+                                @foreach($rooms as $room)
+                                    <option value="{{ $room->id }}">{{ $room->name_room }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="user_id" class="form-label-custom">User</label>
+                            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                            <select name="user_id" class="form-select form-select-custom" required>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="user_id" class="form-label-custom">User</label>
-                        <select name="user_id" class="form-select form-select-custom" required>
-                            @foreach($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="start_time" class="form-label-custom">Start Time</label>
+                            <input type="datetime-local" name="start_time" class="form-control form-control-custom" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="end_time" class="form-label-custom">End Time</label>
+                            <input type="datetime-local" name="end_time" class="form-control form-control-custom" required>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="start_time" class="form-label-custom">Start Time</label>
-                        <input type="datetime-local" name="start_time" class="form-control form-control-custom" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="end_time" class="form-label-custom">End Time</label>
-                        <input type="datetime-local" name="end_time" class="form-control form-control-custom" required>
-                    </div>
+
                     <div class="mb-3">
                         <label for="status" class="form-label-custom">Status</label>
                         <select name="status" class="form-select form-select-custom" required>
@@ -215,11 +295,13 @@
                             <option value="confirmed">Confirmed</option>
                         </select>
                     </div>
+
                     <div class="mb-3">
                         <label for="notes" class="form-label-custom">Notes</label>
                         <textarea name="notes" class="form-control form-control-custom" rows="3"></textarea>
                     </div>
                 </div>
+
                 <div class="modal-footer modal-footer-custom">
                     <button type="button" class="btn btn-custom btn-cancel" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-custom btn-save">Save Booking</button>

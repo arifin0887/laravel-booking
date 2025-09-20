@@ -123,8 +123,17 @@
                     @csrf
                     <div class="modal-body modal-body-custom">
                         <div class="mb-3"><label for="name_room" class="form-label-custom">Room Name</label><input type="text" name="name_room" class="form-control form-control-custom" placeholder="e.g., Deluxe King" required></div>
-                        <div class="mb-3"><label for="price" class="form-label-custom">Price (Rp)</label><input type="number" name="price" class="form-control form-control-custom" min="0" placeholder="250000" required></div>
-                        <div class="mb-3"><label for="capacity" class="form-label-custom">Capacity</label><input type="number" name="capacity" class="form-control form-control-custom" min="1" placeholder="2" required></div>
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <label for="price" class="form-label-custom">Price (Rp)</label>
+                                <input type="number" name="price" class="form-control form-control-custom" min="0" placeholder="250000" required>
+                            </div>
+                            <div class="col">
+                                <label for="capacity" class="form-label-custom">Capacity</label>
+                                <input type="number" name="capacity" class="form-control form-control-custom" min="1" placeholder="2" required>
+                            </div>
+
+                        </div>
                         <div class="mb-3"><label for="description" class="form-label-custom">Description</label><textarea name="description" class="form-control form-control-custom" rows="3" placeholder="Enter room description"></textarea></div>
                         <div class="mb-3"><label for="status" class="form-label-custom">Status</label><select name="status" class="form-select form-select-custom" required><option value="available">Available</option><option value="booked">Booked</option></select></div>
                     </div>

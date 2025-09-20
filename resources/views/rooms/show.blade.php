@@ -139,8 +139,16 @@
                 @csrf @method('PUT')
                 <div class="modal-body modal-body-custom">
                     <div class="mb-3"><label for="name_room_edit" class="form-label-custom">Room Name</label><input type="text" name="name_room" class="form-control form-control-custom" value="{{ $room->name_room }}" required></div>
-                    <div class="mb-3"><label for="price_edit" class="form-label-custom">Price (Rp)</label><input type="number" name="price" class="form-control form-control-custom" value="{{ $room->price }}" min="0" required></div>
-                    <div class="mb-3"><label for="capacity_edit" class="form-label-custom">Capacity</label><input type="number" name="capacity" class="form-control form-control-custom" value="{{ $room->capacity }}" min="1" required></div>
+                    <div class="row g-3 mb-3">
+                        <div class="col">
+                            <label for="price_edit" class="form-label-custom">Price (Rp)</label>
+                            <input type="number" name="price" class="form-control form-control-custom" value="{{ $room->price }}" min="0" required>
+                        </div>
+                        <div class="col">
+                            <label for="capacity_edit" class="form-label-custom">Capacity</label>
+                            <input type="number" name="capacity" class="form-control form-control-custom" value="{{ $room->capacity }}" min="1" required>
+                        </div>
+                    </div>
                     <div class="mb-3"><label for="description_edit" class="form-label-custom">Description</label><textarea name="description" class="form-control form-control-custom" rows="3">{{ $room->description }}</textarea></div>
                     <div class="mb-3"><label for="status_edit" class="form-label-custom">Status</label><select name="status" class="form-select form-select-custom" required><option value="available" {{ $room->status == 'available' ? 'selected' : '' }}>Available</option><option value="booked" {{ $room->status == 'booked' ? 'selected' : '' }}>Booked</option></select></div>
                 </div>
