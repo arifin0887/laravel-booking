@@ -75,7 +75,7 @@
         
         .btn { display: inline-block; padding: 0.6rem 1.25rem; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; border: 1px solid transparent; cursor: pointer; }
         .btn-primary { background-color: var(--brand-primary); color: white; }
-        .btn-primary:hover { background-color: var(--brand-primary-hover); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .btn-primary:hover { background-color: var(--brand-accent); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .btn-register {
             background-color: rgba(255,255,255,0.15);
             border-color: rgba(255,255,255,0.3);
@@ -170,11 +170,27 @@
         .room-card .location { color: #777; }
         .room-card .price { font-size: 1.4rem; font-weight: 700; color: var(--brand-primary); margin-top: 1rem; }
         .room-card .price span { font-size: 0.9rem; font-weight: 400; color: #777; }
-        
+
+        .room-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .room-card .price {
+            font-size: 1.2rem;
+        }
+        .room-card .btn {
+            font-size: 0.9rem;
+            padding: 0.4rem 1rem;
+        }
+        .room-card .text-warning {
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+
         .main-footer { background-color: var(--brand-text); color: rgba(255,255,255,0.7); padding: 3rem 0; text-align: center; }
     </style>
 </head>
-
 <body>
     
     <header class="main-header" id="mainHeader">
@@ -242,33 +258,77 @@
                     <p>Akomodasi yang paling disukai oleh pelanggan kami.</p>
                 </div>
                 <div class="rooms-grid">
-                     <a href="#" class="room-card">
+                    <!-- Card 1 -->
+                    <div class="room-card">
                         <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop" alt="The Grand Deluxe">
                         <div class="room-card-content">
                             <h3>The Grand Deluxe</h3>
                             <p class="location">Jakarta, Indonesia</p>
                             <div class="price">Rp 250.000 <span>/malam</span></div>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div class="text-warning">
+                                    ★★★★☆
+                                </div>
+                                @auth
+                                    <!-- Kalau sudah login -->
+                                    <a href="/booking/1" class="btn btn-primary btn-sm">Pesan</a>
+                                @else
+                                    <!-- Kalau belum login -->
+                                    <a href="{{ route('login') }}" class="btn btn-primary btn-sm">
+                                        Pesan
+                                    </a>
+                                @endauth
+                            </div>
                         </div>
-                    </a>
-                    <a href="#" class="room-card">
-                         <img src="https://images.unsplash.com/photo-1596436889106-be35e843f974?q=80&w=2070&auto=format&fit=crop" alt="Ocean View Villa">
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="room-card">
+                        <img src="https://images.unsplash.com/photo-1596436889106-be35e843f974?q=80&w=2070&auto=format&fit=crop" alt="Ocean View Villa">
                         <div class="room-card-content">
                             <h3>Ocean View Villa</h3>
                             <p class="location">Bali, Indonesia</p>
                             <div class="price">Rp 1.200.000 <span>/malam</span></div>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div class="text-warning">
+                                    ★★★★★
+                                </div>
+                                @auth
+                                    <a href="/booking/2" class="btn btn-primary btn-sm">Pesan</a>
+                                @else
+                                    <a href="{{ route('login') }}" class="btn btn-primary btn-sm">
+                                        Pesan
+                                    </a>
+                                @endauth
+                            </div>
                         </div>
-                    </a>
-                    <a href="#" class="room-card">
-                         <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f458?q=80&w=2070&auto=format&fit=crop" alt="Executive Suite">
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="room-card">
+                        <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Executive Suite">
                         <div class="room-card-content">
                             <h3>Executive Suite</h3>
                             <p class="location">Surabaya, Indonesia</p>
                             <div class="price">Rp 750.000 <span>/malam</span></div>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div class="text-warning">
+                                    ★★★★☆
+                                </div>
+                                @auth
+                                    <a href="/booking/3" class="btn btn-primary btn-sm">Pesan</a>
+                                @else
+                                    <a href="{{ route('login') }}" class="btn btn-primary btn-sm">
+                                        Pesan
+                                    </a>
+                                @endauth
+                            </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </section>
+
     </main>
 
     <footer class="main-footer">
